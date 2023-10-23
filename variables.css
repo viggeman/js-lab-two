@@ -1,0 +1,19 @@
+/* VARIABLES */
+:root {
+  /* COLORS */
+
+  --primary-color: tomato;
+  --secondary-color: forestgreen;
+  --complement-color: skyblue;
+
+  /* FONTS */
+
+  /* --primary-font: insert font; */
+  /* --secondary-font: insert font; */
+  --primary-font-color: #000;
+  --secondary-font-color: #fff;
+  --h1-size: 5.6rem;
+  --h2-size: 4rem;
+  --h3-size: 2.5rem;
+  --bodytext-size: 1.6rem;
+}
