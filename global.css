@@ -94,11 +94,16 @@ a {
   font-size: var(--bodytext-size);
 }
 
+a:hover {
+  cursor: pointer;
+}
+
 /* ==== Nav start ==== */
 .header {
   background-color: var(--complement-color);
   position: sticky;
   top: 0;
+  z-index: 100;
 }
 
 .main-nav {

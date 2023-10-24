@@ -16,14 +16,19 @@ async function createPersonCards() {
 
   if (people) {
     let peopleCount = 0;
+
     people.forEach((person) => {
       const card = document.createElement("div");
       peopleCount++;
       card.classList.add("info-card");
       card.innerHTML = `
+        <a href="${person.name.toLowerCase().replace(/ /g, "-")}.html">
         <img src="media/people/${peopleCount}.jpg" alt="${person.name}" />
+        <div class="info-card-text">
         <p>Name: ${person.name}</p>
         <p>Birth Year: ${person.birth_year}</p>
+        </div>
+        </a>
       `;
       appCard.appendChild(card);
     });
