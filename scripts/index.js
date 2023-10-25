@@ -3,15 +3,43 @@ const characterIndex = Number(searchParams.get("id")) - 1;
 
 async function fetchCharacter(charId) {
   let url = "https://swapi.dev/api/people/";
+  if (charId) {
+    url = `https://swapi.dev/api/people/${charId}`;
+    console.log(url);
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log("DATA", data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  } else {
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
 
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data.results;
-  } catch (error) {
-    console.error("Error fetching data:", error);
+      return data.results;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   }
 }
+
+// Tried to fetch all characters
+/* const response = await fetch(url);
+const data = await response.json();
+let nextPage = data.next;
+let results = data.results;
+while (nextPage !== null) {
+  const response = await fetch(nextPage);
+  const data = await response.json();
+  nextPage = data.next;
+  console.log(data.results);
+  return data.results;
+}
+console.log(results);
+return results; */
 
 function displayCharacterDetails(id) {
   const character = JSON.parse(localStorage.getItem("characters"));
