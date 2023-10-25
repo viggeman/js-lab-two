@@ -17,12 +17,7 @@
   max-height: 600px;
 }
 
-img {
-  width: 100%;
-  height: auto;
-}
-
-.info-listing {
+/* .info-listing {
   display: grid;
   grid-column-gap: 1rem;
   row-gap: 1rem;
@@ -31,17 +26,11 @@ img {
 }
 
 .info-card {
-  /* border: 1px solid black; */
+
 }
 
-.info-card > img:hover {
-  border-bottom: 1px solid black;
-}
 
-.info-card:hover {
-  /* background-color: black; */
-}
 
 .info-card-text {
   margin-left: 1rem;
-}
+} */

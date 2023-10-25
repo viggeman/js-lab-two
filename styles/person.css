@@ -4,16 +4,8 @@
   margin-top: 6rem;
 }
 
-.presentation > img {
-  max-width: 40rem;
-  height: auto;
+.character-image {
+  max-width: 80rem;
+  /* height: auto; */
   margin-right: 3rem;
-}
-
-.info-listing {
-  display: grid;
-  grid-column-gap: 1rem;
-  row-gap: 1rem;
-  grid-template-columns: repeat(3, 1fr);
-  margin: 1rem 1rem;
 }

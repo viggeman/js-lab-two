@@ -1,28 +1,43 @@
 const searchParams = new URLSearchParams(window.location.search);
 const characterIndex = searchParams.get("id");
 
-async function fetchPeople() {
-  const url = "https://swapi.dev/api/people/";
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data.results;
-  } catch (error) {
-    console.error("Error fetching data:", error);
+async function fetchCharacter(charId) {
+  let url = "https://swapi.dev/api/people/";
+  if (charId) {
+    url = `https://swapi.dev/api/people/${charId}`;
+    console.log(url);
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log("DATA", data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  } else {
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      return data.results;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   }
 }
 
-async function displayCharacterDetails() {
-  const people = await fetchPeople();
+async function displayCharacterDetails(id) {
+  const character = await fetchCharacter(id);
   const characterDetails = document.querySelector(".character-details");
-  localStorage.setItem("character", JSON.stringify(people));
-  if (people) {
-    const person = people[0];
+  const characterImage = document.querySelector(".character-image");
+
+  if (character) {
+    characterImage.innerHTML = `<img src="../media/people/${characterIndex}.jpg" alt="${character.name}" />`;
+
     characterDetails.innerHTML = `
-          <h2>${person.name}</h2>
-          <p>Birth Year: ${person.birth_year}</p>
-          <p>Height: ${person.height}</p>
-          <p>Mass: ${person.mass}</p>
+          <h2>${character.name}</h2>
+          <p>Birth Year: ${character.birth_year}</p>
+          <p>Height: ${character.height}</p>
+          <p>Mass: ${character.mass}</p>
           <!-- Add more details here -->
       `;
   } else {
@@ -31,10 +46,9 @@ async function displayCharacterDetails() {
 }
 
 async function createPersonCards() {
-  const people = await fetchPeople();
-  const appCard = document.querySelector(".info-listing");
+  const people = await fetchCharacter();
+  const characterCard = document.querySelector(".info-listing");
   console.log(people);
-
   if (people) {
     let peopleCount = 0;
 
@@ -44,7 +58,7 @@ async function createPersonCards() {
       const card = document.createElement("div");
       card.classList.add("info-card");
       card.innerHTML = `
-        <a href="${slug}.html">
+        <a href="../pages/charachter.html?id=${peopleCount}">
         <img src="../media/people/${peopleCount}.jpg" alt="${person.name}" />
         <div class="info-card-text">
         <p>Name: ${person.name}</p>
@@ -52,7 +66,7 @@ async function createPersonCards() {
         </div>
         </a>
       `;
-      appCard.appendChild(card);
+      characterCard.appendChild(card);
     });
   }
 }
@@ -63,5 +77,5 @@ async function createPersonCards() {
 
 // console.log(JSON.parse(localStorage.getItem("character")));
 
-displayCharacterDetails();
+displayCharacterDetails(characterIndex);
 createPersonCards();
