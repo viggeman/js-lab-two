@@ -3,31 +3,18 @@ const characterIndex = Number(searchParams.get("id")) - 1;
 
 async function fetchCharacter(charId) {
   let url = "https://swapi.dev/api/people/";
-  if (charId) {
-    url = `https://swapi.dev/api/people/${charId}`;
-    console.log(url);
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      console.log("DATA", data);
-      return data;
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  } else {
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      return data.results;
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data.results;
+  } catch (error) {
+    console.error("Error fetching data:", error);
   }
 }
 
 function displayCharacterDetails(id) {
   const character = JSON.parse(localStorage.getItem("characters"));
-  console.log(character[id]);
   const characterDetails = document.querySelector(".character-details");
   const characterImage = document.querySelector(".character-image");
 
@@ -50,16 +37,15 @@ function displayCharacterDetails(id) {
 async function fetchPersonCards() {
   const people = await fetchCharacter();
   const characterCard = document.querySelector(".info-listing");
-  console.log(people);
+  // console.log(people);
   localStorage.setItem("characters", JSON.stringify(people));
-  console.log("stored data", localStorage.getItem("characters"));
+  // console.log("stored data", localStorage.getItem("characters"));
   if (people) {
     let peopleCount = 0;
 
     people.forEach((person) => {
       peopleCount++;
-      console.log(person);
-      const slug = person.name.toLowerCase().replace(/ /g, "-");
+      // console.log(person);
       const card = document.createElement("div");
       card.classList.add("info-card");
       card.innerHTML = `
@@ -79,12 +65,12 @@ async function fetchPersonCards() {
 function createPersonCards() {
   const allCharacters = JSON.parse(localStorage.getItem("characters"));
   const characterCard = document.querySelector(".info-listing");
-  console.log(allCharacters);
+  // console.log(allCharacters);
   let peopleCount = 0;
 
   allCharacters.forEach((character) => {
     peopleCount++;
-    console.log(character);
+    // console.log(character);
     const card = document.createElement("div");
     card.classList.add("info-card");
     card.innerHTML = `
@@ -100,18 +86,16 @@ function createPersonCards() {
   });
 }
 
-console.log(JSON.parse(localStorage.getItem("character")));
-
-if (characterIndex >= 0) {
-  displayCharacterDetails(characterIndex);
-}
+// console.log(JSON.parse(localStorage.getItem("character")));
 
 if (!("characters" in localStorage)) {
   fetchPersonCards();
-  console.log("hej");
 } else {
   createPersonCards(characterIndex);
-  console.log("hej då");
+}
+
+if (characterIndex >= 0 && "characters" in localStorage) {
+  displayCharacterDetails(characterIndex);
 }
 
 /* async function fetchPeople() {

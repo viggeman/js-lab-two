@@ -113,7 +113,7 @@ a:hover {
 
 .main-nav {
   display: flex;
-  justify-content: space-between;
+  justify-content: left;
   align-items: center;
   height: 8rem;
   margin: 0 1rem;
