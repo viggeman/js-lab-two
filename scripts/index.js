@@ -1,45 +1,66 @@
 const searchParams = new URLSearchParams(window.location.search);
 const characterIndex = Number(searchParams.get("id")) - 1;
 
-async function fetchCharacter(charId) {
+/* async function fetchCharacter(charId) {
   let url = "https://swapi.dev/api/people/";
-  if (charId) {
-    url = `https://swapi.dev/api/people/${charId}`;
-    console.log(url);
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      console.log("DATA", data);
-      return data;
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  } else {
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
+  let character = [];
 
-      return data.results;
+    try {
+      while (url !== null) {
+        const data = await fetch(url);
+        character = character.concat(data.results);
+        url = data.next;
+      }
+      return character;
     } catch (error) {
       console.error("Error fetching data:", error);
-    }
+
   }
+} */
+
+// ADD TO FUNCTIONS ABOVE
+
+async function fetchPeople(url) {
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
 }
 
-// Tried to fetch all characters
-/* const response = await fetch(url);
-const data = await response.json();
-let nextPage = data.next;
-let results = data.results;
-while (nextPage !== null) {
-  const response = await fetch(nextPage);
-  const data = await response.json();
-  nextPage = data.next;
-  console.log(data.results);
-  return data.results;
+async function fetchAllPeople() {
+  let url = "https://swapi.dev/api/people";
+  let people = [];
+  while (url !== null) {
+    const data = await fetchPeople(url);
+    people = people.concat(data.results);
+    url = data.next;
+  }
+  return people;
 }
-console.log(results);
-return results; */
+
+// async function fetchCharacter(charId) {
+//   let url = "https://swapi.dev/api/people/";
+//   if (charId) {
+//     url = `https://swapi.dev/api/people/${charId}`;
+//     console.log(url);
+//     try {
+//       const response = await fetch(url);
+//       const data = await response.json();
+//       console.log("DATA", data);
+//       return data;
+//     } catch (error) {
+//       console.error("Error fetching data:", error);
+//     }
+//   } else {
+//     try {
+//       const response = await fetch(url);
+//       const data = await response.json();
+
+//       return data.results;
+//     } catch (error) {
+//       console.error("Error fetching data:", error);
+//     }
+//   }
+// }
 
 function displayCharacterDetails(id) {
   const character = JSON.parse(localStorage.getItem("characters"));
@@ -63,7 +84,7 @@ function displayCharacterDetails(id) {
 }
 
 async function fetchPersonCards() {
-  const people = await fetchCharacter();
+  const people = await fetchAllPeople();
   const characterCard = document.querySelector(".info-listing");
   // console.log(people);
   localStorage.setItem("characters", JSON.stringify(people));
@@ -118,6 +139,7 @@ function createPersonCards() {
 
 if (!("characters" in localStorage)) {
   fetchPersonCards();
+  // const allPeople = await fetchAllPeople();
 } else {
   createPersonCards(characterIndex);
 }
