@@ -33,6 +33,7 @@ async function fetchAllPeople() {
     const data = await fetchPeople(url);
     people = people.concat(data.results);
     url = data.next;
+    console.log(people);
   }
   return people;
 }
@@ -74,8 +75,11 @@ function displayCharacterDetails(id) {
     characterDetails.innerHTML = `
           <h2>${character[id].name}</h2>
           <p>Birth Year: ${character[id].birth_year}</p>
-          <p>Height: ${character[id].height}</p>
-          <p>Mass: ${character[id].mass}</p>
+          <p>Height: ${character[id].height} cm</p>
+          <p>Mass: ${character[id].mass} kg</p>
+          <p>Hair Color: ${character[id].hair_color}</p>
+          <p>Eye Color: ${character[id].eye_color}</p>
+          <p>Gender: ${character[id].gender}</p>
           <!-- Add more details here -->
       `;
   } else {

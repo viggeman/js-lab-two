@@ -1,11 +1,23 @@
-.presentation {
-  display: flex;
-  justify-content: center;
-  margin-top: 6rem;
+.character-image {
 }
 
-.character-image {
-  max-width: 80rem;
-  /* height: auto; */
-  margin-right: 3rem;
+/* Media queries */
+@media (min-width: 760px) {
+  #mob-menu {
+    display: none;
+  }
+  .character-image {
+    max-width: 80rem;
+    /* height: auto; */
+    margin-right: 3rem;
+  }
+  .presentation {
+    display: flex;
+    justify-content: center;
+    margin-top: 6rem;
+  }
+  .menu-col1,
+  .menu-col2 {
+    display: initial;
+  }
 }
