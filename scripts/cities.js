@@ -29,6 +29,9 @@ form.addEventListener("submit", async function (event) {
       cityInput.value = "";
       populationInput.value = "";
       console.log(form.value);
+      setTimeout(function () {
+        location.reload();
+      }, 3000);
     }
   } catch (error) {
     errorMsg.textContent = "You totally failed";
@@ -48,11 +51,25 @@ async function loadCities() {
 }
 
 async function createCitiesListing() {
-  try {
-    const allCities = await loadCities();
-    console.log("ALL CITIES", allCities);
-  } catch (error) {}
+  const citiesDiv = document.querySelector("#city-list");
+
+  const allCities = await loadCities();
+  console.log("ALL CITIES", allCities);
+
+  if (allCities) {
+    allCities.forEach((city) => {
+      console.log(city.population);
+      const cityInfo = document.createElement("div");
+      cityInfo.classList.add("city-info");
+      const cityName = city.name;
+      const cityPop = city.population;
+      cityInfo.innerHTML = `
+      <h3>${cityName}</h2>
+      <p>Population: ${cityPop}</p>
+      `;
+      citiesDiv.appendChild(cityInfo);
+    });
+  }
 }
 
-// loadCities();
 createCitiesListing();
