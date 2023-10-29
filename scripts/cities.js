@@ -4,8 +4,6 @@ const success = document.querySelector("#success");
 const cityInput = document.querySelector("#city-name");
 const populationInput = document.getElementById("population");
 
-console.log(success, errorMsg, cityInput, populationInput);
-
 async function postData() {
   const cityName = cityInput.value;
   const population = Number(populationInput.value);
@@ -42,7 +40,19 @@ async function loadCities() {
   try {
     const response = await fetch("https://avancera.app/cities/");
     const data = await response.json();
+    // console.log(data);
+    return data;
   } catch (error) {
     console.error("Error fetching data:", error);
   }
 }
+
+async function createCitiesListing() {
+  try {
+    const allCities = await loadCities();
+    console.log("ALL CITIES", allCities);
+  } catch (error) {}
+}
+
+// loadCities();
+createCitiesListing();
