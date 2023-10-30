@@ -23,13 +23,21 @@
         </nav>
       </header>
       <main>
-        <form id="myForm">
-          <label for="city-name">City Name:</label>
-          <input type="text" id="city-name" name="city-name" required />
-          <label for="population">Population:</label>
-          <input type="number" id="population" name="population" required />
-          <input type="submit" value="Submit" />
-        </form>
+        <legend>
+          <form id="city-post-form">
+            <label for="city-name">City Name:</label>
+            <input type="text" id="city-name" name="city-name" required />
+            <label for="population">Population:</label>
+            <input type="number" id="population" name="population" required />
+            <input type="submit" value="Submit" />
+          </form>
+        </legend>
+        <legend>
+          <form id="search-city-form">
+            <input type="search" value="City ID or City Name" />
+            <input type="submit" value="Submit" />
+          </form>
+        </legend>
         <p id="success"></p>
         <p id="error-msg"></p>
         <section>

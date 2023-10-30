@@ -1,8 +1,11 @@
-const form = document.querySelector("#myForm");
+const postForm = document.querySelector("#city-post-form");
 const errorMsg = document.querySelector("#error-msg");
 const success = document.querySelector("#success");
 const cityInput = document.querySelector("#city-name");
-const populationInput = document.getElementById("population");
+const populationInput = document.querySelector("#population");
+const searchForm = document.querySelector("#search-city-form");
+console.log(searchForm);
+const url = "https://avancera.app/cities/";
 
 async function postData() {
   const cityName = cityInput.value;
@@ -10,7 +13,7 @@ async function postData() {
   const data = { name: cityName, population: population };
   console.log(data);
 
-  const response = await fetch("https://avancera.app/cities/", {
+  const response = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -20,15 +23,17 @@ async function postData() {
   return response.json();
 }
 
-form.addEventListener("submit", async function (event) {
+postForm.addEventListener("submit", async function (event) {
   event.preventDefault();
   try {
     const result = await postData();
+    console.log("hej", result);
     if (result) {
-      success.textContent = "It's a success";
+      const cityAdded = result.pop();
+      console.log(cityAdded);
+      success.textContent = `It's a success, city: ${cityAdded.name} was added!`;
       cityInput.value = "";
       populationInput.value = "";
-      console.log(form.value);
       setTimeout(function () {
         location.reload();
       }, 3000);
@@ -41,7 +46,7 @@ form.addEventListener("submit", async function (event) {
 
 async function loadCities() {
   try {
-    const response = await fetch("https://avancera.app/cities/");
+    const response = await fetch(url);
     const data = await response.json();
     // console.log(data);
     return data;
