@@ -3,8 +3,10 @@ const errorMsg = document.querySelector("#error-msg");
 const success = document.querySelector("#success");
 const cityInput = document.querySelector("#city-name");
 const populationInput = document.querySelector("#population");
-const searchForm = document.querySelector("#search-city-form");
-console.log(searchForm);
+const citySelect = document.querySelector("#city-select");
+const searchForm = document.querySelector("#change-city");
+const patchDeleteForm = document.querySelector("#patch-form");
+
 const url = "https://avancera.app/cities/";
 
 async function postData() {
@@ -23,20 +25,39 @@ async function postData() {
   return response.json();
 }
 
+async function findCity(city) {
+  const searchUrl = url + "?name=" + city;
+  console.log(searchUrl);
+  try {
+    const response = await fetch(searchUrl);
+    const data = await response.json();
+    console.log(data[0].population);
+
+    if (response) {
+      patchDeleteForm.innerHTML = `
+      <input type="text" id="patch-name" name="patch-name" value="${city}"/>
+      <input type="number" id="patch-population" name="patch-population" value="${data[0].population}"/>
+      `;
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+}
+
 postForm.addEventListener("submit", async function (event) {
   event.preventDefault();
+  console.log(event);
   try {
     const result = await postData();
     console.log("hej", result);
     if (result) {
       const cityAdded = result.pop();
-      console.log(cityAdded);
       success.textContent = `It's a success, city: ${cityAdded.name} was added!`;
       cityInput.value = "";
       populationInput.value = "";
-      setTimeout(function () {
-        location.reload();
-      }, 3000);
+      // setTimeout(function () {
+      //   location.reload();
+      // }, 3000);
     }
   } catch (error) {
     errorMsg.textContent = "You totally failed";
@@ -55,14 +76,26 @@ async function loadCities() {
   }
 }
 
+//Eventlistener for find city
+
+searchForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const citySearch = citySelect.value;
+  try {
+    const result = await findCity(citySearch.toString());
+    console.log(result);
+  } catch (error) {}
+});
+
 async function createCitiesListing() {
   const citiesDiv = document.querySelector("#city-list");
 
   const allCities = await loadCities();
-  console.log("ALL CITIES", allCities);
 
   if (allCities) {
+    const cityNames = allCities.map((cityName) => cityName.name);
     allCities.forEach((city) => {
+      // Creates list of cities for display
       console.log(city.population);
       const cityInfo = document.createElement("div");
       cityInfo.classList.add("city-info");
@@ -73,6 +106,10 @@ async function createCitiesListing() {
       <p>Population: ${cityPop}</p>
       `;
       citiesDiv.appendChild(cityInfo);
+      // Creates Options for city Select form
+      const cityOption = document.createElement("option");
+      cityOption.innerText = cityName;
+      citySelect.appendChild(cityOption);
     });
   }
 }
