@@ -1,6 +1,7 @@
 const searchParams = new URLSearchParams(window.location.search);
 const characterIndex = Number(searchParams.get("id")) - 1;
 const characterCard = document.querySelector(".info-listing");
+const characterDetails = document.querySelector(".presentation");
 
 // ADD TO FUNCTIONS ABOVE
 
@@ -16,8 +17,6 @@ async function fetchPeople(url) {
 
 function displayCharacterDetails(id) {
   const character = JSON.parse(localStorage.getItem("characters"));
-  const characterDetails = document.createElement("section");
-  characterDetails.classList.add("presentation");
 
   if (character) {
     const imageIndex = id + 1;
