@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../styles/variables.css" />
     <link rel="stylesheet" href="../styles/global.css" />
-    <link rel="stylesheet" href="../styles/person.css" />
+    <link rel="stylesheet" href="../styles/cities.css" />
     <title>Document</title>
     <meta name="description" content="Description of content on page" />
     <link rel="icon" type="image/xicon" href="media/favicon.ico" />
@@ -24,25 +24,35 @@
         </nav>
       </header>
       <main>
-        <legend>
-          <form id="city-post-form">
+        <form id="city-post-form">
+          <fieldset>
+            <legend>Add New City</legend>
             <label for="city-name">City Name:</label>
             <input type="text" id="city-name" name="city-name" required />
             <label for="population">Population:</label>
             <input type="number" id="population" name="population" required />
             <input type="submit" value="Submit" />
-          </form>
-        </legend>
-        <legend>
-          <form id="change-city">
+          </fieldset>
+        </form>
+        <p id="success"></p>
+        <p id="error-msg"></p>
+        <form id="change-city">
+            <fieldset>
+            <legend>Change or Delete City</legend>
             <label for="city-select">Select a city</label>
             <select name="city-select" id="city-select"></select>
             <input type="submit" value="Change" id="change-button" />
+            <label for="delete-checkbox">Confirm delete</label>
+            <input
+              type="checkbox"
+              name="delete-checkbox"
+              id="delete-checkbox"
+            />
             <input type="submit" value="DELETE" id="delete-button" />
           </form>
-        </legend>
-        <p id="success"></p>
-        <p id="error-msg"></p>
+          <form id="patch-form"></form>
+        </fieldset>
+
         <form id="patch-form"></form>
         <section>
           <h2>All Cities</h2>

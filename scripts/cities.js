@@ -151,10 +151,13 @@ patchButton.addEventListener("click", async (event) => {
 
     if (result) {
       patchForm.innerHTML = `
+      <label for="patch-id">City ID, disabled:</label>
       <input type="text" id="patch-id" name="patch-id" value="${id}" disabled/>
-      <input type="text" id="patch-name" name="patch-name" value="${city}"/>
-      <input type="number" id="patch-population" name="patch-population" value="${population}"/>
-      <input type="submit" value="Patch">
+      <label for="patch-name">Current City Name:</label>
+      <input type="text" id="patch-name" name="patch-name" value="${city}" required/>
+      <label for="patch-population">Current City Population:</label>
+      <input type="number" id="patch-population" name="patch-population" value="${population}" required/>
+      <input type="submit" value="Update City">
       `;
     }
     console.log("result from find city", result);

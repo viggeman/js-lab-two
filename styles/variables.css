@@ -2,8 +2,8 @@
 :root {
   /* COLORS */
 
-  --primary-color: tomato;
-  --secondary-color: forestgreen;
+  --primary-color: #ffe81f;
+  --secondary-color: #050d12;
   --complement-color: skyblue;
 
   /* FONTS */
