@@ -5,9 +5,11 @@ const cityInput = document.querySelector("#city-name");
 const populationInput = document.querySelector("#population");
 const citySelect = document.querySelector("#city-select");
 const searchForm = document.querySelector("#change-city");
-const patchDeleteForm = document.querySelector("#patch-form");
+const patchForm = document.querySelector("#patch-form");
 
 const url = "https://avancera.app/cities/";
+
+// Function for POST city
 
 async function postData() {
   const cityName = cityInput.value;
@@ -25,26 +27,75 @@ async function postData() {
   return response.json();
 }
 
+// Function to present city to be Patched
+
 async function findCity(city) {
   const searchUrl = url + "?name=" + city;
   console.log(searchUrl);
   try {
     const response = await fetch(searchUrl);
     const data = await response.json();
-    console.log(data[0].population);
+    const population = data[0].population;
+    const id = data[0].id;
+    console.log("Data from find", id);
 
     if (response) {
-      patchDeleteForm.innerHTML = `
+      patchForm.innerHTML = `
+      <input type="text" id="patch-id" name="patch-id" value="${id}" disabled/>
       <input type="text" id="patch-name" name="patch-name" value="${city}"/>
-      <input type="number" id="patch-population" name="patch-population" value="${data[0].population}"/>
+      <input type="number" id="patch-population" name="patch-population" value="${population}"/>
+      <input type="submit" value="Patch">
       `;
     }
+    return data;
   } catch (error) {
     console.error("Error fetching data:", error);
   }
 }
 
-postForm.addEventListener("submit", async function (event) {
+//Eventlistener to Patch a city
+patchForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const patchNameInput = document.querySelector("#patch-name");
+  const patchPopulationInput = document.querySelector("#patch-population");
+  const patchIdInput = document.querySelector("#patch-id");
+  const patchId = patchIdInput.value;
+  const patchName = patchNameInput.value;
+  const patchPopulation = Number(patchPopulationInput.value);
+  try {
+    const repsonse = await patchData(patchId, patchName, patchPopulation);
+    if (repsonse) {
+      alert("City of: " + patchName + " was sucessfully changed");
+      location.reload();
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+});
+
+async function patchData(id, cityName, cityPop) {
+  console.log(cityName, cityPop);
+  const patchUrl = url + id;
+  const data = { name: cityName, population: cityPop };
+
+  console.log("object", data);
+  try {
+    const response = await fetch(patchUrl, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    return response.json();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+}
+
+// Eventlistener for adding new City to POST
+
+postForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   console.log(event);
   try {
@@ -65,6 +116,7 @@ postForm.addEventListener("submit", async function (event) {
   }
 });
 
+// Fetch City Data
 async function loadCities() {
   try {
     const response = await fetch(url);
@@ -83,8 +135,10 @@ searchForm.addEventListener("submit", async (event) => {
   const citySearch = citySelect.value;
   try {
     const result = await findCity(citySearch.toString());
-    console.log(result);
-  } catch (error) {}
+    console.log("result from find city", result);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
 });
 
 async function createCitiesListing() {
@@ -108,6 +162,7 @@ async function createCitiesListing() {
       citiesDiv.appendChild(cityInfo);
       // Creates Options for city Select form
       const cityOption = document.createElement("option");
+      cityOption.id = city.id;
       cityOption.innerText = cityName;
       citySelect.appendChild(cityOption);
     });
