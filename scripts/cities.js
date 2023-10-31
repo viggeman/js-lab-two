@@ -6,6 +6,8 @@ const populationInput = document.querySelector("#population");
 const citySelect = document.querySelector("#city-select");
 const searchForm = document.querySelector("#change-city");
 const patchForm = document.querySelector("#patch-form");
+const patchButton = document.querySelector("#change-button");
+const deleteButton = document.querySelector("#delete-button");
 
 const url = "https://avancera.app/cities/";
 
@@ -35,18 +37,6 @@ async function findCity(city) {
   try {
     const response = await fetch(searchUrl);
     const data = await response.json();
-    const population = data[0].population;
-    const id = data[0].id;
-    console.log("Data from find", id);
-
-    if (response) {
-      patchForm.innerHTML = `
-      <input type="text" id="patch-id" name="patch-id" value="${id}" disabled/>
-      <input type="text" id="patch-name" name="patch-name" value="${city}"/>
-      <input type="number" id="patch-population" name="patch-population" value="${population}"/>
-      <input type="submit" value="Patch">
-      `;
-    }
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -73,6 +63,7 @@ patchForm.addEventListener("submit", async (event) => {
   }
 });
 
+// PATCH data function
 async function patchData(id, cityName, cityPop) {
   console.log(cityName, cityPop);
   const patchUrl = url + id;
@@ -88,6 +79,24 @@ async function patchData(id, cityName, cityPop) {
       body: JSON.stringify(data),
     });
     return response.json();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+}
+
+// DELETE city function
+async function deleteData(id) {
+  const deleteUrl = url + id;
+  console.log(deleteUrl);
+  try {
+    alert("are you sure?");
+    const response = await fetch(deleteUrl, {
+      method: "DELETE",
+    });
+    if (response) {
+      location.reload();
+    }
+    return response;
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -130,12 +139,42 @@ async function loadCities() {
 
 //Eventlistener for find city
 
-searchForm.addEventListener("submit", async (event) => {
+patchButton.addEventListener("click", async (event) => {
   event.preventDefault();
   const citySearch = citySelect.value;
   try {
     const result = await findCity(citySearch.toString());
+    const population = result[0].population;
+    const id = result[0].id;
+    const city = result[0].name;
+    console.log("Data from find", result);
+
+    if (result) {
+      patchForm.innerHTML = `
+      <input type="text" id="patch-id" name="patch-id" value="${id}" disabled/>
+      <input type="text" id="patch-name" name="patch-name" value="${city}"/>
+      <input type="number" id="patch-population" name="patch-population" value="${population}"/>
+      <input type="submit" value="Patch">
+      `;
+    }
     console.log("result from find city", result);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+});
+
+// Eventlistener delete
+deleteButton.addEventListener("click", async (event) => {
+  event.preventDefault();
+  const citySearch = citySelect.value;
+  console.log(citySearch);
+  try {
+    const result = await findCity(citySearch.toString());
+    if (result) {
+      const deleteCity = await deleteData(result[0].id);
+      console.log("deleted", deleteCity);
+    }
+    // console.log("result from find city", result);
   } catch (error) {
     console.error("Error fetching data:", error);
   }
