@@ -1,4 +1,23 @@
-.character-image {
+#wrapper h2 {
+  margin: auto;
+  color: #fff;
+}
+
+.presentation {
+  display: block;
+  margin: auto;
+}
+
+.character-text {
+  margin: 1rem 2rem;
+}
+
+.two-col {
+  width: 70%;
+}
+
+.character-details {
+  background-color: #fff;
 }
 
 /* Media queries */
@@ -7,14 +26,14 @@
     display: none;
   }
   .character-image {
-    max-width: 80rem;
-    /* height: auto; */
-    margin-right: 3rem;
+    max-height: 50%;
   }
   .presentation {
     display: flex;
     justify-content: center;
-    margin-top: 6rem;
+    max-width: 80%;
+    /* max-height: 50vh; */
+    margin: 6rem auto;
   }
   .menu-col1,
   .menu-col2 {
