@@ -115,9 +115,9 @@ postForm.addEventListener("submit", async (event) => {
       success.textContent = `It's a success, city: ${cityAdded.name} was added!`;
       cityInput.value = "";
       populationInput.value = "";
-      // setTimeout(function () {
-      //   location.reload();
-      // }, 3000);
+      setTimeout(function () {
+        location.reload();
+      }, 3000);
     }
   } catch (error) {
     errorMsg.textContent = "You totally failed";

@@ -15,7 +15,7 @@ async function fetchPeople(url) {
   }
 }
 
-function displayCharacterDetails(id) {
+displayCharacterDetails = (id) => {
   const character = JSON.parse(localStorage.getItem("characters"));
 
   if (character) {
@@ -40,45 +40,45 @@ function displayCharacterDetails(id) {
   } else {
     characterDetails.innerHTML = "<p>Character not found.</p>";
   }
-}
+};
 
 async function personCards() {
   characterCard.innerHTML = `<div class="loader"></div>`;
   let url = "https://swapi.dev/api/people";
-  let response = await fetchPeople(url);
-  if (response) {
+  let getCharacters = await fetchPeople(url);
+  if (getCharacters) {
     characterCard.removeChild(characterCard.firstElementChild);
-    let nextUrl = response.next;
-    let people = response.results;
+    let nextUrl = getCharacters.next;
+    let charachters = getCharacters.results;
     let peopleCount = 0;
-    let allPeople = response.results;
+    let allCharacters = getCharacters.results;
     while (nextUrl !== null) {
-      response = await fetchPeople(nextUrl);
-      people.forEach((person) => {
+      charachters.forEach((char) => {
         peopleCount++;
         const card = document.createElement("div");
         card.classList.add("info-card");
         card.innerHTML = `
         <a href="../pages/character.html?id=${peopleCount}">
-        <img src="../media/people/${peopleCount}.jpg" alt="${person.name}" />
+        <img src="../media/people/${peopleCount}.jpg" alt="${char.name}" />
         <div class="info-card-text">
-        <p>Name: ${person.name}</p>
-        <p>Birth Year: ${person.birth_year}</p>
+        <p>Name: ${char.name}</p>
+        <p>Birth Year: ${char.birth_year}</p>
         </div>
         </a>
         `;
         characterCard.appendChild(card);
       });
-      allPeople = allPeople.concat(response.results);
-      people = response.results;
-      nextUrl = response.next;
+      getCharacters = await fetchPeople(nextUrl);
+      allCharacters = allCharacters.concat(getCharacters.results);
+      charachters = getCharacters.results;
+      nextUrl = getCharacters.next;
     }
-    localStorage.setItem("characters", JSON.stringify(allPeople));
+    localStorage.setItem("characters", JSON.stringify(allCharacters));
     console.log("local", localStorage.getItem("characters"));
   }
 }
 
-function createPersonCards() {
+createPersonCards = () => {
   const allCharacters = JSON.parse(localStorage.getItem("characters"));
   // console.log(allCharacters);
   let peopleCount = 0;
@@ -99,14 +99,13 @@ function createPersonCards() {
       `;
     characterCard.appendChild(card);
   });
-}
+};
 
 if (!("characters" in localStorage)) {
-  window.onload = async () => {
-    personCards();
-    console.log("onload");
-  };
-  // const allPeople = await fetchAllPeople();
+  personCards();
+  // window.onload = async () => {
+  //   console.log("onload");
+  // };
 } else {
   createPersonCards(characterIndex);
 }

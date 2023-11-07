@@ -67,6 +67,7 @@ function createPersonCards() {
         <p>Birth Year: ${character.birth_year}</p>
         </div>
         </a>
+
       `;
     characterCard.appendChild(card);
   });
@@ -83,3 +84,40 @@ if (characterIndex >= 0) {
   displayCharacterDetails(characterIndex);
 }
 createPersonCards();
+
+async function personCards() {
+  characterCard.innerHTML = `<div class="loader"></div>`;
+  let url = "https://swapi.dev/api/people";
+  let getCharacters = await fetchPeople(url);
+  if (getCharacters) {
+    characterCard.removeChild(characterCard.firstElementChild);
+    let nextUrl = getCharacters.next;
+    let charachters = getCharacters.results;
+    let peopleCount = 0;
+    let allCharacters = getCharacters.results;
+
+    charachters.forEach((char) => {
+      peopleCount++;
+      const card = document.createElement("div");
+      card.classList.add("info-card");
+      card.innerHTML = `
+        <a href="../pages/character.html?id=${peopleCount}">
+        <img src="../media/people/${peopleCount}.jpg" alt="${char.name}" />
+        <div class="info-card-text">
+        <p>Name: ${char.name}</p>
+        <p>Birth Year: ${char.birth_year}</p>
+        </div>
+        </a>
+
+        `;
+      characterCard.appendChild(card);
+    });
+    getCharacters = await fetchPeople(nextUrl);
+    allCharacters = allCharacters.concat(getCharacters.results);
+    charachters = getCharacters.results;
+    nextUrl = getCharacters.next;
+
+    localStorage.setItem("characters", JSON.stringify(allCharacters));
+    console.log("local", localStorage.getItem("characters"));
+  }
+}

@@ -2,6 +2,10 @@ body {
   background-color: white;
 }
 
+.all-cities {
+  margin: 0 10rem;
+}
+
 input[type="text"],
 select,
 input[type="number"] {
