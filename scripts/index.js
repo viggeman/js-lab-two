@@ -1,9 +1,8 @@
 const searchParams = new URLSearchParams(window.location.search);
 const characterIndex = Number(searchParams.get("id")) - 1;
+console.log(characterIndex);
 const characterCard = document.querySelector(".info-listing");
 const characterDetails = document.querySelector(".presentation");
-
-// ADD TO FUNCTIONS ABOVE
 
 async function fetchPeople(url) {
   try {
@@ -14,33 +13,6 @@ async function fetchPeople(url) {
     console.error("Error fetching data:", error);
   }
 }
-
-displayCharacterDetails = (id) => {
-  const character = JSON.parse(localStorage.getItem("characters"));
-
-  if (character) {
-    const imageIndex = id + 1;
-
-    characterDetails.innerHTML = `
-    <div class="character-image two-col">
-      <img src="../media/people/${imageIndex}.jpg" alt="${character[id].name}" />
-    </div>
-    <div class="character-details two-col">
-      <div class="character-text">
-        <h2>${character[id].name}</h2>
-        <p>Birth Year: ${character[id].birth_year}</p>
-        <p>Height: ${character[id].height} cm</p>
-        <p>Mass: ${character[id].mass} kg</p>
-        <p>Hair Color: ${character[id].hair_color}</p>
-        <p>Eye Color: ${character[id].eye_color}</p>
-        <p>Gender: ${character[id].gender}</p>
-      </div>
-    </div>
-    `;
-  } else {
-    characterDetails.innerHTML = "<p>Character not found.</p>";
-  }
-};
 
 async function personCards() {
   characterCard.innerHTML = `<div class="loader"></div>`;
@@ -103,13 +75,6 @@ createPersonCards = () => {
 
 if (!("characters" in localStorage)) {
   personCards();
-  // window.onload = async () => {
-  //   console.log("onload");
-  // };
 } else {
   createPersonCards(characterIndex);
-}
-
-if (characterIndex >= 0 && "characters" in localStorage) {
-  displayCharacterDetails(characterIndex);
 }

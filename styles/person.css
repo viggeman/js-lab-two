@@ -1,8 +1,3 @@
-#wrapper h2 {
-  margin: auto;
-  color: #fff;
-}
-
 .presentation {
   display: block;
   margin: auto;
@@ -18,6 +13,10 @@
 
 .character-details {
   background-color: #fff;
+}
+
+.page-heading {
+  color: var(--primary-font-color);
 }
 
 /* Media queries */

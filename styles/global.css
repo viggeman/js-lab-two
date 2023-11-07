@@ -18,7 +18,6 @@ p,
 a,
 ul,
 ol {
-  color: var(--primary-fontColor);
   margin: 0;
   font-weight: normal;
 }
@@ -39,15 +38,15 @@ a:hover {
 }
 
 button {
-  display: inline-block;
+  display: block;
   border: none;
-  padding: 0;
-  margin: 0;
+  padding: 1.5rem;
+  margin: 3rem auto;
   text-decoration: none;
-  background: #000;
-  color: #ffffff;
+  background: var(--primary-color);
+  color: var(--font-text);
   font-family: inherit;
-  font-size: inherit;
+  font-size: var(--bodytext-size);
   cursor: pointer;
   text-align: center;
 }
