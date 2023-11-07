@@ -45,13 +45,13 @@ async function personCards() {
       charachters = getCharacters.results;
       nextUrl = getCharacters.next;
     }
-    localStorage.setItem("characters", JSON.stringify(allCharacters));
-    console.log("local", localStorage.getItem("characters"));
+    sessionStorage.setItem("characters", JSON.stringify(allCharacters));
+    console.log("local", sessionStorage.getItem("characters"));
   }
 }
 
 createPersonCards = () => {
-  const allCharacters = JSON.parse(localStorage.getItem("characters"));
+  const allCharacters = JSON.parse(sessionStorage.getItem("characters"));
   // console.log(allCharacters);
   let peopleCount = 0;
 
@@ -73,7 +73,7 @@ createPersonCards = () => {
   });
 };
 
-if (!("characters" in localStorage)) {
+if (!("characters" in sessionStorage)) {
   personCards();
 } else {
   createPersonCards(characterIndex);

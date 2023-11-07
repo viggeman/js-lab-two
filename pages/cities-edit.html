@@ -24,6 +24,8 @@
         </nav>
       </header>
       <main>
+      <div id="city-grid">
+        <div id="forms">
         <form id="city-post-form">
           <fieldset>
             <legend>Add New City</legend>
@@ -34,30 +36,28 @@
             <input type="submit" value="Submit" />
           </fieldset>
         </form>
-        <p id="success"></p>
-        <p id="error-msg"></p>
         <form id="change-city">
-            <fieldset>
-            <legend>Change or Delete City</legend>
-            <label for="city-select">Select a city</label>
-            <select name="city-select" id="city-select"></select>
-            <input type="submit" value="Change" id="change-button" />
-            <label for="delete-checkbox">Confirm delete</label>
-            <input
-              type="checkbox"
-              name="delete-checkbox"
-              id="delete-checkbox"
-            />
-            <input type="submit" value="DELETE" id="delete-button" />
-          </form>
-          <form id="patch-form"></form>
-        </fieldset>
-
+          <fieldset>
+          <legend>Change or Delete City</legend>
+          <label for="city-select">Select a city</label>
+          <select name="city-select" id="city-select"></select>
+          <input type="submit" value="Change" id="change-button" />
+          <label for="delete-checkbox">Confirm delete</label>
+          <input
+            type="checkbox"
+            name="delete-checkbox"
+            id="delete-checkbox"
+          />
+          <input type="submit" value="DELETE" id="delete-button" />
+        </form>
         <form id="patch-form"></form>
+        </fieldset>
+        </div>
         <section class="all-cities">
           <h2>All Cities</h2>
           <div id="city-list"></div>
         </section>
+      </div>
       </main>
       <footer class="footer">
         <section class="footer-col1">

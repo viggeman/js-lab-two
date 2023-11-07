@@ -87,14 +87,15 @@ async function patchData(id, cityName, cityPop) {
 // DELETE city function
 async function deleteData(id) {
   const deleteUrl = url + id;
-  console.log(deleteUrl);
+  console.log("delete", deleteUrl);
   try {
     alert("are you sure?");
     const response = await fetch(deleteUrl, {
       method: "DELETE",
     });
     if (response) {
-      location.reload();
+      console.log("delete response", response);
+      // location.reload();
     }
     return response;
   } catch (error) {
@@ -112,15 +113,11 @@ postForm.addEventListener("submit", async (event) => {
     console.log("hej", result);
     if (result) {
       const cityAdded = result.pop();
-      success.textContent = `It's a success, city: ${cityAdded.name} was added!`;
-      cityInput.value = "";
-      populationInput.value = "";
-      setTimeout(function () {
-        location.reload();
-      }, 3000);
+      alert(`It's a success, city: ${cityAdded.name} was added!`);
+      location.reload();
     }
   } catch (error) {
-    errorMsg.textContent = "You totally failed";
+    alert("You totally failed");
     console.error("Error fetching data:", error);
   }
 });
@@ -143,11 +140,10 @@ patchButton.addEventListener("click", async (event) => {
   event.preventDefault();
   const citySearch = citySelect.value;
   try {
-    const result = await findCity(citySearch.toString());
+    const result = await findCity(citySearch);
     const population = result[0].population;
     const id = result[0].id;
     const city = result[0].name;
-    console.log("Data from find", result);
 
     if (result) {
       patchForm.innerHTML = `
@@ -160,7 +156,6 @@ patchButton.addEventListener("click", async (event) => {
       <input type="submit" value="Update City">
       `;
     }
-    console.log("result from find city", result);
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -172,12 +167,11 @@ deleteButton.addEventListener("click", async (event) => {
   const citySearch = citySelect.value;
   console.log(citySearch);
   try {
-    const result = await findCity(citySearch.toString());
+    const result = await findCity(citySearch);
     if (result) {
       const deleteCity = await deleteData(result[0].id);
-      console.log("deleted", deleteCity);
+      location.reload();
     }
-    // console.log("result from find city", result);
   } catch (error) {
     console.error("Error fetching data:", error);
   }

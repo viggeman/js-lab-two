@@ -63,7 +63,7 @@ async function personCards() {
   let getCharacters = await fetchPeople(url);
   if (getCharacters) {
     characterCard.removeChild(characterCard.firstElementChild);
-    searchUrl = new URLSearchParams.get(getCharacters.next);
+    searchUrl = new URLSearchParams(getCharacters.next);
     console.log(searchUrl);
     const pageId = searchUrl.get(page);
     console.log("pageID", pageId);

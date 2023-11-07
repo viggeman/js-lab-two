@@ -17,7 +17,7 @@ async function fetchPeople(url) {
 }
 
 displayCharacterDetails = (id) => {
-  const character = JSON.parse(localStorage.getItem("characters"));
+  const character = JSON.parse(sessionStorage.getItem("characters"));
 
   if (character) {
     const imageIndex = id + 1;
@@ -44,7 +44,7 @@ displayCharacterDetails = (id) => {
 };
 
 createPersonCards = () => {
-  const allCharacters = JSON.parse(localStorage.getItem("characters"));
+  const allCharacters = JSON.parse(sessionStorage.getItem("characters"));
   // console.log(allCharacters);
   let peopleCount = 0;
 
@@ -68,6 +68,6 @@ createPersonCards = () => {
 
 createPersonCards(characterIndex);
 
-if (characterIndex >= 0 && "characters" in localStorage) {
+if (characterIndex >= 0 && "characters" in sessionStorage) {
   displayCharacterDetails(characterIndex);
 }
