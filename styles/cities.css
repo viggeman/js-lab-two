@@ -16,7 +16,6 @@ input[type="number"] {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
-  font-family: inherit;
 }
 
 input[type="submit"] {
@@ -28,7 +27,7 @@ input[type="submit"] {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-family: inherit;
+  font-family: var(--primary-font);
 }
 
 input[type="submit"]:hover {
@@ -55,4 +54,5 @@ fieldset {
 #forms {
   max-width: 30%;
   margin-right: 3rem;
+  font-family: var(--primary-font);
 }

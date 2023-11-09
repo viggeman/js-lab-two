@@ -1,4 +1,7 @@
 /* VARIABLES */
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
 :root {
   /* COLORS */
 
@@ -8,7 +11,7 @@
 
   /* FONTS */
 
-  /* --primary-font: insert font; */
+  --primary-font: "Roboto", sans-serif;
   /* --secondary-font: insert font; */
   --primary-font-color: #fff;
   --secondary-font-color: #fff;
