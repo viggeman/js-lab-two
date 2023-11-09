@@ -1,24 +1,10 @@
-/*
-1. Random 10 numbers
-2. Pop those 10 from characters
-3. Create 2 arrays with those 10 IDs
-4. Shuffle the arrays
-5. Create a randomize image listing with all the duplicates
-  a. Create 20 html memory Cards div
-  b. Loop and add Characterdata to memory card
-
-1. Click events on al cards
-2. function: if cards match, pop to 'matched' array
-3. When all cards is gone, end game > rerun button
-
-1. Add styling/animation
-2. Maybe create Point system
-*/
-
 const min = 1;
 const max = 82;
 const allCharacters = JSON.parse(sessionStorage.getItem("characters"));
 const memoryGrid = document.querySelector(".memory-grid");
+
+/* Inspiration and help from here
+https://marina-ferreira.github.io/projects/js/memory-game/ */
 
 let hasFlippedCard = false;
 let lockBoard = false;
@@ -33,17 +19,16 @@ function flipCard() {
   if (!hasFlippedCard) {
     hasFlippedCard = true;
     firstCard = this;
-    console.log("console.log", firstCard.id);
+
     return;
   }
 
   secondCard = this;
-  console.log("second", secondCard.id);
+
   checkForMatch();
 }
 
 function checkForMatch() {
-  console.log(firstCard, secondCard);
   let isMatch = firstCard.id === secondCard.id;
 
   isMatch ? disableCards() : unflipCards();
@@ -64,13 +49,15 @@ function unflipCards() {
     secondCard.classList.remove("is-flipped");
 
     resetBoard();
-  }, 1500);
+  }, 2000);
 }
 
 function resetBoard() {
   [hasFlippedCard, lockBoard] = [false, false];
   [firstCard, secondCard] = [null, null];
 }
+
+/* End of inspiration */
 
 numberGen = () => {
   let randomNr = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -81,12 +68,22 @@ createCards = () => {
   let randomNumbers = [];
   for (let i = 0; i < 10; i++) {
     let newNumber = numberGen();
-    randomNumbers.push(newNumber);
-    // console.log(randomNumbers);
+    if (!randomNumbers.includes(newNumber)) {
+      randomNumbers.push(newNumber);
+    } else {
+      newNumber = numberGen();
+      if (!randomNumbers.includes(newNumber)) {
+        randomNumbers.push(newNumber);
+      } else {
+        newNumber = numberGen();
+        randomNumbers.push(newNumber);
+      }
+    }
   }
+
   randomNumbers = randomNumbers.concat(randomNumbers);
-  console.log("random", randomNumbers);
   randomNumbers = shuffle(randomNumbers);
+
   return randomNumbers;
 };
 
@@ -98,7 +95,10 @@ shuffle = (array) => {
   return array;
 };
 
+/* Initiate JS */
+
 const randomIds = createCards();
+
 randomIds.forEach((id) => {
   const card = document.createElement("div");
   card.classList.add("tile");
@@ -111,17 +111,9 @@ randomIds.forEach((id) => {
 });
 
 const memoryCard = document.querySelectorAll("div.tile");
-console.log(memoryCard);
+
+/* Add eventlistener to each card */
 
 memoryCard.forEach(function (card) {
   card.addEventListener("click", flipCard);
 });
-/* memoryCard.forEach(function (card) {
-  card.addEventListener("click", function () {
-    // do something when the button is clicked
-    console.log("You clicked a button", card);
-    card.classList.toggle("is-flipped");
-  });
-}); */
-
-console.log("randomid", randomIds);

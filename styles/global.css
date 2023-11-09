@@ -189,6 +189,11 @@ a:hover {
   width: 50%;
 }
 
+/* MAIN */
+main {
+  margin-bottom: 6rem;
+}
+
 /* Media queries */
 @media (min-width: 760px) {
   #mob-menu {

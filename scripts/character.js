@@ -45,14 +45,13 @@ displayCharacterDetails = (id) => {
 
 createPersonCards = () => {
   const allCharacters = JSON.parse(sessionStorage.getItem("characters"));
-  // console.log(allCharacters);
   let peopleCount = 0;
 
   allCharacters.forEach((character) => {
     peopleCount++;
-    // console.log(character);
     const card = document.createElement("div");
     card.classList.add("info-card");
+
     card.innerHTML = `
         <a href="../pages/character.html?id=${peopleCount}">
         <img src="../media/people/${peopleCount}.jpg" alt="${character.name}" />
@@ -62,6 +61,7 @@ createPersonCards = () => {
         </div>
         </a>
       `;
+
     characterCard.appendChild(card);
   });
 };

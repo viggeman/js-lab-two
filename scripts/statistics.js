@@ -1,5 +1,5 @@
 const ctx = document.getElementById("myChart");
-const characterData = JSON.parse(localStorage.getItem("characters"));
+const characterData = JSON.parse(sessionStorage.getItem("characters"));
 const characterEyeColor = characterData.map((color) => color.eye_color);
 const sortedEyeColor = characterEyeColor.sort();
 const allEyecolors = [];
@@ -23,6 +23,8 @@ const resultArr = sortedEyeColor.reduce(
   },
   { sortedEyeColor: [] }
 ).sortedEyeColor;
+
+console.log(resultArr);
 
 const colorLength = [];
 

@@ -1,8 +1,7 @@
-const searchParams = new URLSearchParams(window.location.search);
-const characterIndex = Number(searchParams.get("id")) - 1;
-console.log(characterIndex);
 const characterCard = document.querySelector(".info-listing");
 const characterDetails = document.querySelector(".presentation");
+
+/* API Call */
 
 async function fetchPeople(url) {
   try {
@@ -14,6 +13,25 @@ async function fetchPeople(url) {
   }
 }
 
+htmlMachine = (chars) => {
+  let peopleCount = 0;
+  chars.forEach((char) => {
+    peopleCount++;
+    const card = document.createElement("div");
+    card.classList.add("info-card");
+    card.innerHTML = `
+    <a href="../pages/character.html?id=${peopleCount}">
+    <img src="../media/people/${peopleCount}.jpg" alt="${char.name}" />
+    <div class="info-card-text">
+    <p>Name: ${char.name}</p>
+    <p>Birth Year: ${char.birth_year}</p>
+    </div>
+    </a>
+    `;
+    characterCard.appendChild(card);
+  });
+};
+
 async function personCards() {
   characterCard.innerHTML = `<div class="loader"></div>`;
   let url = "https://swapi.dev/api/people";
@@ -21,11 +39,11 @@ async function personCards() {
   if (getCharacters) {
     characterCard.removeChild(characterCard.firstElementChild);
     let nextUrl = getCharacters.next;
-    let charachters = getCharacters.results;
-    let peopleCount = 0;
+    let characters = getCharacters.results;
     let allCharacters = getCharacters.results;
+    let peopleCount = 0;
     while (nextUrl !== null) {
-      charachters.forEach((char) => {
+      characters.forEach((char) => {
         peopleCount++;
         const card = document.createElement("div");
         card.classList.add("info-card");
@@ -42,39 +60,21 @@ async function personCards() {
       });
       getCharacters = await fetchPeople(nextUrl);
       allCharacters = allCharacters.concat(getCharacters.results);
-      charachters = getCharacters.results;
+      characters = getCharacters.results;
       nextUrl = getCharacters.next;
     }
     sessionStorage.setItem("characters", JSON.stringify(allCharacters));
-    console.log("local", sessionStorage.getItem("characters"));
   }
 }
 
 createPersonCards = () => {
   const allCharacters = JSON.parse(sessionStorage.getItem("characters"));
-  // console.log(allCharacters);
-  let peopleCount = 0;
 
-  allCharacters.forEach((character) => {
-    peopleCount++;
-    // console.log(character);
-    const card = document.createElement("div");
-    card.classList.add("info-card");
-    card.innerHTML = `
-        <a href="../pages/character.html?id=${peopleCount}">
-        <img src="../media/people/${peopleCount}.jpg" alt="${character.name}" />
-        <div class="info-card-text">
-        <p>Name: ${character.name}</p>
-        <p>Birth Year: ${character.birth_year}</p>
-        </div>
-        </a>
-      `;
-    characterCard.appendChild(card);
-  });
+  htmlMachine(allCharacters);
 };
 
 if (!("characters" in sessionStorage)) {
   personCards();
 } else {
-  createPersonCards(characterIndex);
+  createPersonCards();
 }

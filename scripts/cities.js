@@ -1,6 +1,4 @@
 const postForm = document.querySelector("#city-post-form");
-const errorMsg = document.querySelector("#error-msg");
-const success = document.querySelector("#success");
 const cityInput = document.querySelector("#city-name");
 const populationInput = document.querySelector("#population");
 const citySelect = document.querySelector("#city-select");
@@ -17,7 +15,6 @@ async function postData() {
   const cityName = cityInput.value;
   const population = Number(populationInput.value);
   const data = { name: cityName, population: population };
-  console.log(data);
 
   const response = await fetch(url, {
     method: "POST",
@@ -33,7 +30,7 @@ async function postData() {
 
 async function findCity(city) {
   const searchUrl = url + "?name=" + city;
-  console.log(searchUrl);
+
   try {
     const response = await fetch(searchUrl);
     const data = await response.json();
@@ -65,11 +62,9 @@ patchForm.addEventListener("submit", async (event) => {
 
 // PATCH data function
 async function patchData(id, cityName, cityPop) {
-  console.log(cityName, cityPop);
   const patchUrl = url + id;
   const data = { name: cityName, population: cityPop };
 
-  console.log("object", data);
   try {
     const response = await fetch(patchUrl, {
       method: "PATCH",
@@ -87,14 +82,13 @@ async function patchData(id, cityName, cityPop) {
 // DELETE city function
 async function deleteData(id) {
   const deleteUrl = url + id;
-  console.log("delete", deleteUrl);
+
   try {
     alert("are you sure?");
     const response = await fetch(deleteUrl, {
       method: "DELETE",
     });
     if (response) {
-      console.log("delete response", response);
       // location.reload();
     }
     return response;
@@ -107,10 +101,10 @@ async function deleteData(id) {
 
 postForm.addEventListener("submit", async (event) => {
   event.preventDefault();
-  console.log(event);
+
   try {
     const result = await postData();
-    console.log("hej", result);
+
     if (result) {
       const cityAdded = result.pop();
       alert(`It's a success, city: ${cityAdded.name} was added!`);
@@ -127,7 +121,7 @@ async function loadCities() {
   try {
     const response = await fetch(url);
     const data = await response.json();
-    // console.log(data);
+
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -165,7 +159,7 @@ patchButton.addEventListener("click", async (event) => {
 deleteButton.addEventListener("click", async (event) => {
   event.preventDefault();
   const citySearch = citySelect.value;
-  console.log(citySearch);
+
   try {
     const result = await findCity(citySearch);
     if (result) {
@@ -186,7 +180,7 @@ async function createCitiesListing() {
     const cityNames = allCities.map((cityName) => cityName.name);
     allCities.forEach((city) => {
       // Creates list of cities for display
-      console.log(city.population);
+
       const cityInfo = document.createElement("div");
       cityInfo.classList.add("city-info");
       const cityName = city.name;
